@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<title>Insert title here</title>
+</head>
+<body>
+
+
+
+<div th:insert="fragments/header::header"></div>
+<table border="1">  
+04.              <tr>  
+05.                <th>用户名</th>  
+06.                <th>邮箱</th>  
+07.                <th>管理员</th>  
+08.               
+16.              </tr>  
+17.              <tr  th:each="user: ${paperList}">  
+18.                <td th:text="${user.paperName}">Onions</td>  
+19.                <td th:text="${user.paperPrice}">test@test.com.cn</td>  
+20.                <td th:text="${user.paperUid}">yes</td>  
+21.                  
+29.              </tr>  
+30.            </table>  
+
+</body>
+</html>
