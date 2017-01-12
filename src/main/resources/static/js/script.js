@@ -3182,23 +3182,23 @@ var App = function () {
         init: function () {
 		
             if (App.isPage("index")) {
-				handleDateTimePickers(); //Function to display Date Timepicker
+			/*	handleDateTimePickers(); //Function to display Date Timepicker
 				handleSparkline();		//Function to display Sparkline charts
-				handleDashFlotCharts(); //Function to display flot charts in dashboard
-				handleChat('chat-window'); //Function to handle chat
+*/				//handleDashFlotCharts(); //Function to display flot charts in dashboard
+				/*handleChat('chat-window'); //Function to handle chat
 				handleCalendar();	//Function to display calendar
 				handleGritter();	//Function to display Gritter notifications
-            }
+*/            }
 			if (App.isPage("widgets_box")) {
 				handleBoxSortable(); //Function to handle Box sortables
             }
 			if (App.isPage("elements")) {
-				handleBootbox(); //Function to display Date Timepicker
+				/*handleBootbox(); //Function to display Date Timepicker
 				handleMagicSuggest(); //Function to display autosuggest
 				handleDateColorpicker(); //Function to handle date and time picker
 				handleRaty(); //To show star ratings
 				handleTimeAgo(); //Function to handle timestamps
-            }
+*/            }
 			if (App.isPage("button_icons")) {
 				handleStatefulButtons(); //Function to display stateful buttons
 				handleToggle(); 		//Function to handle toggle buttons

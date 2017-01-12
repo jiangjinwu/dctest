@@ -2,6 +2,8 @@ package com.dc.function.paper.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Question {
 
 	String questionId;
@@ -12,6 +14,7 @@ public class Question {
 	
 	List<Option> options;
 	
+	@JsonProperty
 	Explain explain;
 	
 	

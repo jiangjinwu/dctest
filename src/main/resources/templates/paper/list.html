@@ -1,5 +1,7 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="fragments/adminLayout">
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 
@@ -9,23 +11,101 @@
 </head>
 <body>
 
-
-
-<div th:insert="fragments/header::header"></div>
-<table border="1">  
-04.              <tr>  
-05.                <th>用户名</th>  
-06.                <th>邮箱</th>  
-07.                <th>管理员</th>  
-08.               
-16.              </tr>  
-17.              <tr  th:each="user: ${paperList}">  
-18.                <td th:text="${user.paperName}">Onions</td>  
-19.                <td th:text="${user.paperPrice}">test@test.com.cn</td>  
-20.                <td th:text="${user.paperUid}">yes</td>  
-21.                  
-29.              </tr>  
-30.            </table>  
-
+<div layout:fragment="content" style="width:96%;margin-left:auto;margin-right:auto;">
+<div class="row">
+							<div class="col-sm-12">
+								<div class="page-header">
+									<!-- STYLER -->
+									
+									<!-- /STYLER -->
+									<!-- BREADCRUMBS -->
+									<ul class="breadcrumb">
+										<li>
+											<i class="fa fa-home"></i>
+											<a href="index.html">Home</a>
+										</li>
+										<li>
+											<a href="#">UI Features</a>
+										</li>
+										<li>Buttons &amp; Icons</li>
+									</ul>
+									<!--  
+									<div class="clearfix">
+										<h3 class="content-title pull-left">Buttons &amp; Icons</h3>
+									</div>
+									<div class="description">Buttons, Icons, Labels, Drop-downs &amp; Drop-ups</div>
+									 -->
+									
+									<div class="box border lite">
+									<!-- <div class="box-title">
+										
+										<div class="tools">
+											<a href="#box-config" data-toggle="modal" class="config">
+												<i class="fa fa-cog"></i>
+											</a>
+											<a href="javascript:;" class="reload">
+												<i class="fa fa-refresh"></i>
+											</a>
+											<a href="javascript:;" class="collapse">
+												<i class="fa fa-chevron-up"></i>
+											</a>
+											<a href="javascript:;" class="remove">
+												<i class="fa fa-times"></i>
+											</a>
+										</div>
+									</div> -->
+									<div class="box-body center">
+									
+									
+										<p class="btn-toolbar">
+										<div class="btn-group">
+											<a href="createPaper.html" class="btn btn-xs btn-default"><i class="fa fa-pencil"></i>Default</a>
+											<button class="btn btn-xs btn-default"><i class="fa fa-pencil"></i> Write</button>
+											<button class="btn btn-xs btn-primary">Primary</button>
+											<button class="btn btn-xs btn-info">Info</button>
+											<button class="btn btn-xs btn-success">Success</button>
+											<button class="btn btn-xs btn-warning">Warning</button>
+											<button class="btn btn-xs btn-danger">Danger</button>
+											<button class="btn btn-xs btn-inverse">Inverse</button>
+											</div>
+										</p>
+										
+									</div>
+								</div>
+								</div>
+							</div>
+						</div>
+<div class="table-responsive">
+<table border="1" class="table table-hover table-striped">  
+<thead>
+              <tr>  
+               <th>用户名</th>  
+               <th>邮箱</th>  
+                <th>管理员</th>  
+        <th>操作</th>  
+              </tr> 
+</thead>         
+<tbody>
+              <tr  th:each="user: ${paperList}">  
+                <td th:text="${user.paperName}">Onions</td>  
+                <td th:text="${user.paperPrice}">test@test.com.cn</td>  
+                <td th:text="${user.paperUid}">yes</td>  
+                 <td >
+                 <a th:href="@{editPaper.html(paperId=${user.paperId})}" class="btn btn-xs btn-default"><i class="fa fa-edit"></i></a>
+                 <a th:href="@{editQuOp.html(paperId=${user.paperId})}" class="btn btn-xs btn-default"><i class="fa fa-plus"></i></a>
+                 
+                 </td>  
+              
+              </tr> 
+</tbody>  
+            </table> 
+</div>
+<script>
+		jQuery(document).ready(function() {		
+			App.setPage("elements");  //Set current page
+			App.init(); //Initialise plugins and elements
+		});
+	</script> 
+</div>
 </body>
 </html>

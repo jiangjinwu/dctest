@@ -31,19 +31,14 @@ public class PaperService {
 	PaperRepository<Paper> paperRepository;
 	
 	
-	public List<Paper> getPageList(PageRequest pageRequest){
-		Page<Paper> result= 	paperRepository.findAll(new Specification<Paper> () {  
-			@Override
-			   public Predicate toPredicate(Root<Paper> root,  
-			    CriteriaQuery<?> query, CriteriaBuilder cb) {  
-			    Path<String> namePath = root.get("paperName");
-			   // Path<String> nicknamePath = root.get("nickname");  
-			    query.where(cb.like(namePath, "%111%")); //这里可以设置任意条查询条件  
-			     
-			    return null;  
-			   }
-			  }, pageRequest);
+	public List<Paper> getPageList(PageRequest pageRequest,Specification specification){
+		Page<Paper> result= 	paperRepository.findAll(specification, pageRequest);
 		return result.getContent();
+	}
+	
+	public Paper  findOne(Integer id){
+		 Paper  result= 	paperRepository.findOne(id);
+		return result;
 	}
 	
 }

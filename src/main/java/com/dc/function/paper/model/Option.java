@@ -1,11 +1,19 @@
 package com.dc.function.paper.model;
 
-public class Option {
+import java.io.Serializable;
+
+public class Option implements Serializable {
 
 	String optionId;
 	String optionName;
 	String questionId;
 	String nextOptionId;
+	
+	public  Option() {
+		super();
+		
+	}
+	
 	public String getOptionId() {
 		return optionId;
 	}

@@ -19,6 +19,7 @@ public class Paper  implements RowMapper<Paper>{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Integer paperId;
 	String paperName;
+	String paperNo;
 	
 	
 	Long paperCtime;
@@ -56,6 +57,14 @@ public class Paper  implements RowMapper<Paper>{
 	}
 	public void setPaperPrice(Float paperPrice) {
 		this.paperPrice = paperPrice;
+	}
+	
+	
+	public String getPaperNo() {
+		return paperNo;
+	}
+	public void setPaperNo(String paperNo) {
+		this.paperNo = paperNo;
 	}
 	public Paper mapRow(ResultSet rs, int arg1) throws SQLException {
 		Paper paper = new Paper();
