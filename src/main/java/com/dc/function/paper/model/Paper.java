@@ -1,36 +1,28 @@
 package com.dc.function.paper.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.springframework.jdbc.core.RowMapper;
 
 @Entity
+public class Paper  {
 
-public class Paper  implements RowMapper<Paper>{
 
-	@Id	
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	Integer paperId;
+	Long paperId;
 	String paperName;
 	String paperNo;
-	
-	
 	Long paperCtime;
 	String paperUid;
 	Float paperPrice;
+	Integer expireDayCount;
 	
-	
-	public Integer getPaperId() {
+	@Id	
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public Long getPaperId() {
 		return paperId;
 	}
-	public void setPaperId(Integer paperId) {
+	public void setPaperId(Long paperId) {
 		this.paperId = paperId;
 	}
 	public String getPaperName() {
@@ -66,7 +58,16 @@ public class Paper  implements RowMapper<Paper>{
 	public void setPaperNo(String paperNo) {
 		this.paperNo = paperNo;
 	}
-	public Paper mapRow(ResultSet rs, int arg1) throws SQLException {
+	public Integer getExpireDayCount() {
+		return expireDayCount;
+	}
+	public void setExpireDayCount(Integer expireDayCount) {
+		this.expireDayCount = expireDayCount;
+	}
+	 
+	
+	
+	/*public Paper mapRow(ResultSet rs, int arg1) throws SQLException {
 		Paper paper = new Paper();
 		
 		paper.setPaperPrice(rs.getFloat("pape_price"));
@@ -75,6 +76,6 @@ public class Paper  implements RowMapper<Paper>{
 		paper.setPaperCtime(rs.getLong("pape_ctime"));
 		paper.setPaperId(rs.getInt("pape_id"));
 		return paper;
-	}
+	}*/
 
 }

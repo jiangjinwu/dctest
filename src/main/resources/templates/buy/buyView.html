@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title th:text="#{view.index.title}">Welcome!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="/static/css/cloud-admin.css" >
+		<script src="/static/js/jquery/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.bootstrap.numberUI.js"></script>
+		<script src="/static/json2.js"></script>
+	<style>
+	.span-btn {
+	cursor: pointer;
+	}
+	.input_mini{
+	}
+	
+	</style>
+	
+	<script>
+	$(function(){
+		$(".number").numberUI({stepLength:1,name:'buyNum'}); 
+	});
+	
+	function add2cart(){
+		var buyNum = $("input[name='buyNum']").val();
+		var datas={};
+		datas.paperId=$("#paperId").val();
+		datas.buyNum=buyNum;
+		$.ajax({
+			type:'POST',
+			contentType: "application/json",
+			dataType:"json",
+			url:"/buy/add2cart.json",
+			data:JSON.stringify(datas),
+			success:function(){
+				console.info(datas);
+			}
+			
+		});
+		
+	}
+	</script>
+</head>
+<body>
+<div class="container">
+    <!--/* Handle the flash task */-->
+    <th:block th:if="${message != null}">
+        <!--/* The message code is returned from the @Controller */-->
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+    </th:block>
+<div class="box border green">
+											<div class="box-title">
+												<h4><i class="fa fa-bars"></i>Form states</h4>
+												<div class="tools hidden-xs">
+													<a href="#box-config" data-toggle="modal" class="config">
+														<i class="fa fa-cog"></i>
+													</a>
+													<a href="javascript:;" class="reload">
+														<i class="fa fa-refresh"></i>
+													</a>
+													<a href="javascript:;" class="collapse">
+														<i class="fa fa-chevron-up"></i>
+													</a>
+													<a href="javascript:;" class="remove">
+														<i class="fa fa-times"></i>
+													</a>
+												</div>
+											</div>
+											<div class="box-body big">
+												<form class="form-horizontal" role="form">
+												<input id="paperId" name="paperId" th:value="${param.paperId}"/>
+												  <div class="form-group">
+													<label class="col-sm-3 control-label">Input focus</label>
+													<div class="col-sm-9">
+													  <input class="form-control" id="focusedInput" type="text" value="This is focused...">
+													</div>
+												  </div>
+												  <div class="form-group">
+													<label class="col-sm-3 control-label">Disabled inputs</label>
+													<div class="col-sm-9">
+														<input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled="">
+													</div>
+												  </div>
+												  <div class="form-group">
+													<label class="col-sm-3 control-label">Field with tooltip on focus</label>
+													<div class="col-sm-9">
+														<input type="text" name="regular" title="" class="form-control tip-focus" data-original-title="Tooltip on focus">
+													</div>
+												  </div>
+												  <div class="form-group">
+													<label class="col-sm-3 control-label">Field with tooltip on hover</label>
+													<div class="col-sm-9">
+														<input type="text" name="regular" title="" class="form-control tip" data-original-title="Tooltip on hover">
+													</div>
+												  </div>
+												  <div class="form-group has-success">
+													<label class="col-sm-3 control-label">Input with success</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" id="inputSuccess">														
+													</div>
+												  </div>
+												  <div class="form-group has-warning">
+													<label class="col-sm-3 control-label">Input with warning</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" id="inputWarning">														
+													</div>
+												  </div>
+												  <div class="input-group">
+														  <span class="input-group-addon span-btn">-</span>
+														  <input type="number"  value="1" class="form-control col-sm-3">
+														  <span class="input-group-addon span-btn">+</span>
+												   </div>
+												   
+												   
+												   <div class="input-group number">
+												   </div>
+												  <div class="form-group">
+													<div class="col-sm-offset-2 col-sm-10">
+													  <button type="button" onclick="add2cart()" class="btn btn-pink">add2cart</button>
+													   <button type="submit" class="btn btn-pink">buy now</button>
+													</div>
+												
+												  </div>
+												  
+												
+												 </form>
+											</div>
+										</div>
+</div>
+</body>
+</html>

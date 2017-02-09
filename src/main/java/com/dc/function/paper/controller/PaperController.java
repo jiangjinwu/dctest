@@ -1,7 +1,12 @@
 package com.dc.function.paper.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -20,10 +25,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.dc.function.paper.dao.BaseRepository;
+import com.dc.function.paper.dao.OptionRepository;
 import com.dc.function.paper.dao.PaperRepository;
+import com.dc.function.paper.dao.TestInfoRepository;
 import com.dc.function.paper.model.Paper;
 import com.dc.function.paper.model.Question;
+import com.dc.function.paper.model.QuestionOption;
+import com.dc.function.paper.model.TestInfo;
 import com.dc.function.paper.service.PaperService;
+
 
 @Controller()
 /*@RequestMapping("paper/")*/
@@ -35,6 +47,16 @@ public class PaperController {
 	
 	@Autowired
 	PaperService paperService;
+	
+	@Autowired
+	BaseRepository baseRepository;
+	
+	@Autowired
+	OptionRepository optionRepository;
+	
+	@Autowired
+	TestInfoRepository testRepository;
+	
 	
 	
 	@InitBinder("question")  
@@ -81,10 +103,48 @@ public class PaperController {
 		return "paper/createPaper";
 	}
 	
+	@RequestMapping("viewPaper.html")
+	public String viewPaper(String paperId,Model model) {
+	 
+		Long pid =Long.parseLong(paperId);
+		
+		Paper paper = paperService.findOne(pid);
+		List<Question> questionList = baseRepository.findByPaperId(pid);
+		model.addAttribute("paper", paper);
+		model.addAttribute("questionList", questionList);
+		return "paper/viewPaper";
+	}
+	
+	@RequestMapping("dotest.html")
+	public String dotest(String paperId,  Model model) {
+		
+		Long pid =Long.parseLong(paperId);
+		
+		Paper paper = paperService.findOne(pid);
+		List<Question> questionList = baseRepository.findByPaperId(pid);
+		
+		TestInfo testInfo = testRepository.getPaperNotFinishTestInfo(pid);
+		
+		if(testInfo == null){
+			testInfo = new TestInfo();
+			testInfo.setPaperId(pid);
+			testInfo.setTestTime(new Date());
+			testRepository.save(testInfo);
+		}
+		
+		
+		model.addAttribute("paper", paper);
+		model.addAttribute("questionList", questionList);
+		model.addAttribute("testInfo", testInfo);
+		
+		
+		return "paper/dotest";
+	}
+	
 	@RequestMapping("editPaper.html")
 	public String editPaper(Integer paperId,Model model) {
-		Paper paper = paperService.findOne(paperId);
-		model.addAttribute("paper", paper);
+	/*	Paper paper = paperService.findOne(paperId);
+		model.addAttribute("paper", paper);*/
 		return "paper/editPaper";
 	}
 	
@@ -98,6 +158,7 @@ public class PaperController {
 	
 		
 		paperRepository.save(paper);
+		/*baseRepository.save(paper);*/
 		return "paper/list";
 	}
 	
@@ -109,16 +170,27 @@ public class PaperController {
 	
 	@RequestMapping("addQuestionAndOptions.json")
 	@ResponseBody
-	//public void addQuestionAndOptions(/* @RequestBody Question question*/ @RequestBody List<Option> options) {
+	public String addQuestionAndOptions( Question optionform) {
 		
-		public void addQuestionAndOptions(String options) {
+		
+		/*int i=0;
+		paperRepository.save(optionform);*/
+	
+		 return "success";
+	}
+	
+	@RequestMapping("addQuestionAndOptions.html")
+	@ResponseBody
+	public String addQuestionAndOptionsForm( Question optionform) {
+		
+		
 		int i=0;
 		
 		//,@RequestBody ArrayList<Option> options
 		//@RequestBody  Question question
 		//question.setQuestionId(UUID.randomUUID().toString());
 	  //paperService.saveQuestionAndOptioins(question, options);
-		//return questions;
+		 return "success";
 	}
 	
 	@RequestMapping("addQuestionAndOptions2.html")
@@ -131,11 +203,43 @@ public class PaperController {
 		
 	}
 	
-	@RequestMapping("addQuestionAndOptions3.json")
+	/*@RequestMapping("addQuestionAndOptions3.json")
 	@ResponseBody
 		public void addQuestionAndOptions3(@RequestBody Question question) {
 		int i=0;
 		i++;
+		
+	}*/
+	
+	@RequestMapping("addQuestionAndOptions3.json")
+	@ResponseBody
+		public Question addQuestionAndOptions3(@RequestBody String param) throws UnsupportedEncodingException {
+		
+      /*  JSONObject jo=new JSONObject();  
+        JSONObject jsonObject = jo.JSONValue*/
+		param = URLDecoder.decode(param, "utf-8");
+		 // param ="{'paperId':'1','questionName':'question name'}";
+        	/*Object obj =  JSONObject.parse(param,Question.class);*/
+        	Question question =JSON.parseObject(param,Question.class);
+        	//Object obj2=	JSONValue.parse(param);
+        	 Set<QuestionOption> questionOptions = question.getQuestionOptions();
+        	 question.setQuestionOptions(null);
+         	baseRepository.save(question);
+         	/* question.setQuestionOptions(questionOptions);
+         	baseRepository.save(question);*/
+         	
+         	Iterator it =questionOptions.iterator();
+         	
+         	while(it.hasNext()){
+         		QuestionOption q = (QuestionOption)it.next();
+         		q.setQuestion(question);
+         		optionRepository.save(q);
+         	}
+         	//baseRepository.save(questionOptions);
+		int i=0;
+		i++;
+		//question.setQuestionOptions(questionOptions);
+		return question;
 		
 	}
 

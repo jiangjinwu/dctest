@@ -5,17 +5,18 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.dc.function.paper.model.Paper;
-
-@Repository
-public interface PaperRepository<T>  extends CrudRepository<Paper, Integer>, PagingAndSortingRepository<Paper, Integer> {
+/*
+@NoRepositoryBean
+@Repository*/
+public interface PaperRepository  extends PagingAndSortingRepository<Paper, Long> {
 
 	
-	Page<T> findAll(Specification<T> spec, Pageable pageable);  //分页按条件查询  
+	Page<Paper> findAll(Specification<Paper> spec, Pageable pageable);  //分页按条件查询  
 	  
-	List<T> findAll(Specification<T> spec);
+	List<Paper> findAll(Specification<Paper> spec);
 }

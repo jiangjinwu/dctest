@@ -1,33 +1,36 @@
 package com.dc.function.paper.model;
 
 import java.util.List;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+@Entity
 public class Question {
 
-	String questionId;
+	
+	Long questionId;
 	String questionName;
 	String sectionId;
-	String paperId;
+	Long paperId;
 	int questionScore;
 	
-	List<Option> options;
-	
-	@JsonProperty
-	Explain explain;
+	Set<QuestionOption> questionOptions;
 	
 	
-	public Explain getExplain() {
-		return explain;
-	}
-	public void setExplain(Explain explain) {
-		this.explain = explain;
-	}
-	public String getQuestionId() {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public Long getQuestionId() {
 		return questionId;
 	}
-	public void setQuestionId(String questionId) {
+	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
 	}
 	public String getQuestionName() {
@@ -42,10 +45,10 @@ public class Question {
 	public void setSectionId(String sectionId) {
 		this.sectionId = sectionId;
 	}
-	public String getPaperId() {
+	public Long getPaperId() {
 		return paperId;
 	}
-	public void setPaperId(String paperId) {
+	public void setPaperId(Long paperId) {
 		this.paperId = paperId;
 	}
 	public int getQuestionScore() {
@@ -54,11 +57,15 @@ public class Question {
 	public void setQuestionScore(int questionScore) {
 		this.questionScore = questionScore;
 	}
-	public List<Option> getOptions() {
-		return options;
+	
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="question")
+	public Set<QuestionOption> getQuestionOptions() {
+		return questionOptions;
 	}
-	public void setOptions(List<Option> options) {
-		this.options = options;
+	
+
+	public void setQuestionOptions(Set<QuestionOption> options) {
+		this.questionOptions = options;
 	}
 	
 	
