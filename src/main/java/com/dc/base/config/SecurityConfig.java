@@ -48,10 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new UserService();
     }
 
-    @Bean
+  /*  @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
         return new TokenBasedRememberMeServices("remember-me-key", userService());
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -72,12 +72,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 			.logout()
-				.permitAll()
-				.and()
+				.permitAll();
+		
+		
+			/*	.and()
             .rememberMe()
                 .rememberMeServices(rememberMeServices())
                 .key("remember-me-key");
-		
+		*/
 		
 		http.authorizeRequests().accessDecisionManager(new AccessDecisionManager() {
 			

@@ -1,18 +1,16 @@
 package com.dc.function.user.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 
 @Entity
@@ -25,7 +23,8 @@ public class AccountInfo implements Serializable {
 	String phone;
 	Date createDate;
 	Integer accountType;
-	
+	boolean enable;
+	private Collection<Role> roles;
 	UserInfo userInfo;
 	
 /*	 @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -92,6 +91,32 @@ public class AccountInfo implements Serializable {
 	}
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+
+
+	public boolean isEnable() {
+		return enable;
+	}
+
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
+	@ManyToMany
+	@JoinTable( 
+	        name = "accounts_roles", 
+	        joinColumns = @JoinColumn(
+	          name = "account_id", referencedColumnName = "accountId"), 
+	        inverseJoinColumns = @JoinColumn(
+	          name = "role_id", referencedColumnName = "id")) 
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
 	}
 	 
 	
