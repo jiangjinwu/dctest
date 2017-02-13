@@ -5,12 +5,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.stereotype.Service;
 
 import com.dc.function.user.dao.AccountRepository;
@@ -21,15 +24,27 @@ import com.dc.function.user.model.Role;
 import com.dc.function.user.model.UserInfo;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService extends JdbcDaoImpl{
 
+/*	9.3.1 What is authentication in Spring Security?
+	private static AuthenticationManager am = new SampleAuthenticationManager();*/
+	
+	
+	@Autowired
+	DataSource dataSource;
 	
 	@Autowired 
 	AccountRepository accountRepository;
 	
 	 @Autowired
 	    private RoleRepository roleRepository;
-	
+	 
+	 @PostConstruct
+		private void initialize() {
+			setDataSource(dataSource);
+		}
+	 
+
 	public void signUp(UserInfo account){
 		/*UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(account, null, account.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);*/

@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login.html")
 				.successForwardUrl("/home.html")
 				.permitAll()
+				.and().httpBasic()
 				.and()
 			.logout()
 				.permitAll();
